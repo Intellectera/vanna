@@ -99,6 +99,7 @@ class ChromaDB_VectorStore(VannaBase):
 
     def get_training_data(self, **kwargs) -> pd.DataFrame:
         sql_data = self.sql_collection.get()
+        print('arash **********')
 
         df = pd.DataFrame()
 
