@@ -40,18 +40,25 @@ class ChromaDB_VectorStore(VannaBase):
         else:
             raise ValueError(f"Unsupported client was set in config: {curr_client}")
 
+        agent_id = config.get("agent_id", None)
+        # throw error if agent_id is not provided
+        if agent_id is None:
+            raise ValueError("agent_id is required to initialize ChromaDB_VectorStore")
+        # replace - with _ in agent_id
+        agent_id = agent_id.replace("-", "_")
+
         self.documentation_collection = self.chroma_client.get_or_create_collection(
-            name="documentation",
+            name=agent_id + "_documentation",
             embedding_function=self.embedding_function,
             metadata=collection_metadata,
         )
         self.ddl_collection = self.chroma_client.get_or_create_collection(
-            name="ddl",
+            name=agent_id + "_ddl",
             embedding_function=self.embedding_function,
             metadata=collection_metadata,
         )
         self.sql_collection = self.chroma_client.get_or_create_collection(
-            name="sql",
+            name=agent_id + "_sql",
             embedding_function=self.embedding_function,
             metadata=collection_metadata,
         )
