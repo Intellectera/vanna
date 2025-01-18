@@ -88,10 +88,8 @@ class VannaDB_VectorStore(VannaBase, VannaAdvanced):
         response = requests.post(self._graphql_endpoint, headers=self._graphql_headers, json={'query': query})
         response_json = response.json()
         if response.status_code == 200 and 'data' in response_json and 'get_all_sql_functions' in response_json['data']:
-            self.log(response_json['data']['get_all_sql_functions'])
+            # self.log(response_json['data']['get_all_sql_functions'])
             resp = response_json['data']['get_all_sql_functions']
-
-            print(resp)
 
             return resp
         else:
@@ -126,10 +124,8 @@ class VannaDB_VectorStore(VannaBase, VannaAdvanced):
         response = requests.post(self._graphql_endpoint, headers=self._graphql_headers, json={'query': query, 'variables': variables})
         response_json = response.json()
         if response.status_code == 200 and 'data' in response_json and 'get_and_instantiate_function' in response_json['data']:
-            self.log(response_json['data']['get_and_instantiate_function'])
+            # self.log(response_json['data']['get_and_instantiate_function'])
             resp = response_json['data']['get_and_instantiate_function']
-
-            print(resp)
 
             return resp
         else:
@@ -157,8 +153,6 @@ class VannaDB_VectorStore(VannaBase, VannaAdvanced):
         response_json = response.json()
         if response.status_code == 200 and 'data' in response_json and response_json['data'] is not None and 'generate_and_create_sql_function' in response_json['data']:
             resp = response_json['data']['generate_and_create_sql_function']
-
-            print(resp)
 
             return resp
         else:
@@ -213,8 +207,6 @@ class VannaDB_VectorStore(VannaBase, VannaAdvanced):
                 **updated_function
             }
         }
-
-        print("variables", variables)
 
         response = requests.post(self._graphql_endpoint, headers=self._graphql_headers, json={'query': mutation, 'variables': variables})
         response_json = response.json()

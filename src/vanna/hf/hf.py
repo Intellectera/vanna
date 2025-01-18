@@ -1,5 +1,6 @@
 import re
-from transformers import AutoTokenizer, AutoModelForCausalLM
+
+from transformers import AutoModelForCausalLM, AutoTokenizer
 
 from ..base import VannaBase
 
@@ -76,6 +77,6 @@ class Hf(VannaBase):
         )
         response = outputs[0][input_ids.shape[-1] :]
         response = self.tokenizer.decode(response, skip_special_tokens=True)
-        self.log(response)
+        # self.log(response)
 
         return response

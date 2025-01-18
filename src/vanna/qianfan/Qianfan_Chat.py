@@ -126,9 +126,9 @@ class Qianfan_Chat(VannaBase):
 
     if kwargs.get("model", None) is not None:
       model = kwargs.get("model", None)
-      print(
-        f"Using model {model} for {num_tokens} tokens (approx)"
-      )
+      # print(
+      #   f"Using model {model} for {num_tokens} tokens (approx)"
+      # )
       response = self.client.do(
         model=self.model,
         messages=prompt,
@@ -137,9 +137,9 @@ class Qianfan_Chat(VannaBase):
         temperature=self.temperature,
       )
     elif self.config is not None and "model" in self.config:
-      print(
-        f"Using model {self.config['model']} for {num_tokens} tokens (approx)"
-      )
+      # print(
+      #   f"Using model {self.config['model']} for {num_tokens} tokens (approx)"
+      # )
       response = self.client.do(
         model=self.config.get("model"),
         messages=prompt,
@@ -153,7 +153,7 @@ class Qianfan_Chat(VannaBase):
       else:
         model = "ERNIE-Speed-8K"
 
-      print(f"Using model {model} for {num_tokens} tokens (approx)")
+      # print(f"Using model {model} for {num_tokens} tokens (approx)")
       response = self.client.do(
         model=model,
         messages=prompt,

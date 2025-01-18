@@ -1,12 +1,12 @@
 import json
 from typing import List
 
-from pinecone import Pinecone, PodSpec, ServerlessSpec
 import pandas as pd
+from fastembed import TextEmbedding
+from pinecone import Pinecone, PodSpec, ServerlessSpec
+
 from ..base import VannaBase
 from ..utils import deterministic_uuid
-
-from fastembed import TextEmbedding
 
 
 class PineconeDB_VectorStore(VannaBase):
@@ -118,7 +118,7 @@ class PineconeDB_VectorStore(VannaBase):
     def add_ddl(self, ddl: str, **kwargs) -> str:
         id = deterministic_uuid(ddl) + "-ddl"
         if self._check_if_embedding_exists(id=id, namespace=self.ddl_namespace):
-            print(f"DDL with id: {id} already exists in the index. Skipping...")
+            # print(f"DDL with id: {id} already exists in the index. Skipping...")
             return id
         self.Index.upsert(
             vectors=[(id, self.generate_embedding(ddl), {"ddl": ddl})],
@@ -132,9 +132,9 @@ class PineconeDB_VectorStore(VannaBase):
         if self._check_if_embedding_exists(
             id=id, namespace=self.documentation_namespace
         ):
-            print(
-                f"Documentation with id: {id} already exists in the index. Skipping..."
-            )
+            # print(
+            #     f"Documentation with id: {id} already exists in the index. Skipping..."
+            # )
             return id
         self.Index.upsert(
             vectors=[(id, self.generate_embedding(doc), {"documentation": doc})],
@@ -152,9 +152,9 @@ class PineconeDB_VectorStore(VannaBase):
         )
         id = deterministic_uuid(question_sql_json) + "-sql"
         if self._check_if_embedding_exists(id=id, namespace=self.sql_namespace):
-            print(
-                f"Question-SQL with id: {id} already exists in the index. Skipping..."
-            )
+            # print(
+            #     f"Question-SQL with id: {id} already exists in the index. Skipping..."
+            # )
             return id
         self.Index.upsert(
             vectors=[

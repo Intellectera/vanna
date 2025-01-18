@@ -4,9 +4,9 @@ from typing import List
 
 import pandas as pd
 from opensearchpy import OpenSearch
-from ..types import TableMetadata
 
 from ..base import VannaBase
+from ..types import TableMetadata
 from ..utils import deterministic_uuid
 
 
@@ -308,7 +308,6 @@ class OpenSearch_VectorStore(VannaBase):
       },
       "size": self.n_results
     }
-    print(query)
     response = self.client.search(index=self.ddl_index, body=query,
                                   **kwargs)
     return [hit['_source']['ddl'] for hit in response['hits']['hits']]
@@ -322,7 +321,6 @@ class OpenSearch_VectorStore(VannaBase):
       },
       "size": self.n_results
     }
-    print(query)
     response = self.client.search(index=self.document_index,
                                   body=query,
                                   **kwargs)
@@ -337,7 +335,6 @@ class OpenSearch_VectorStore(VannaBase):
       },
       "size": self.n_results
     }
-    print(query)
     response = self.client.search(index=self.question_sql_index,
                                   body=query,
                                   **kwargs)
@@ -384,7 +381,6 @@ class OpenSearch_VectorStore(VannaBase):
     if size > 0:
       query["size"] = size
 
-    print(query)
     response = self.client.search(index=self.ddl_index, body=query, **kwargs)
     return [hit['_source'] for hit in response['hits']['hits']]
 

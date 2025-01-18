@@ -43,10 +43,6 @@ class Xinference(VannaBase):
 
         xinference_model = self.xinference_client.get_model(model_uid)
         if isinstance(xinference_model, RESTfulChatModelHandle):
-            print(
-                f"Using model_uid {model_uid} for {num_tokens} tokens (approx)"
-            )
-
             response = xinference_model.chat(prompt)
             return response["choices"][0]["message"]["content"]
         else:

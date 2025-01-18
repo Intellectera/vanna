@@ -70,9 +70,9 @@ class QianWenAI_Chat(VannaBase):
 
     if kwargs.get("model", None) is not None:
       model = kwargs.get("model", None)
-      print(
-        f"Using model {model} for {num_tokens} tokens (approx)"
-      )
+      # print(
+      #   f"Using model {model} for {num_tokens} tokens (approx)"
+      # )
       response = self.client.chat.completions.create(
         model=model,
         messages=prompt,
@@ -81,9 +81,9 @@ class QianWenAI_Chat(VannaBase):
       )
     elif kwargs.get("engine", None) is not None:
       engine = kwargs.get("engine", None)
-      print(
-        f"Using model {engine} for {num_tokens} tokens (approx)"
-      )
+      # print(
+      #   f"Using model {engine} for {num_tokens} tokens (approx)"
+      # )
       response = self.client.chat.completions.create(
         engine=engine,
         messages=prompt,
@@ -91,9 +91,9 @@ class QianWenAI_Chat(VannaBase):
         temperature=self.temperature,
       )
     elif self.config is not None and "engine" in self.config:
-      print(
-        f"Using engine {self.config['engine']} for {num_tokens} tokens (approx)"
-      )
+      # print(
+      #   f"Using engine {self.config['engine']} for {num_tokens} tokens (approx)"
+      # )
       response = self.client.chat.completions.create(
         engine=self.config["engine"],
         messages=prompt,
@@ -101,9 +101,9 @@ class QianWenAI_Chat(VannaBase):
         temperature=self.temperature,
       )
     elif self.config is not None and "model" in self.config:
-      print(
-        f"Using model {self.config['model']} for {num_tokens} tokens (approx)"
-      )
+      # print(
+      #   f"Using model {self.config['model']} for {num_tokens} tokens (approx)"
+      # )
       response = self.client.chat.completions.create(
         model=self.config["model"],
         messages=prompt,
@@ -116,7 +116,7 @@ class QianWenAI_Chat(VannaBase):
       else:
         model = "qwen-plus"
 
-      print(f"Using model {model} for {num_tokens} tokens (approx)")
+      # print(f"Using model {model} for {num_tokens} tokens (approx)")
       response = self.client.chat.completions.create(
         model=model,
         messages=prompt,

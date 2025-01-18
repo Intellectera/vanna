@@ -65,7 +65,7 @@ import requests
 import sqlparse
 
 from ..exceptions import DependencyError, ImproperlyConfigured, ValidationError
-from ..types import TrainingPlan, TrainingPlanItem, TableMetadata
+from ..types import TableMetadata, TrainingPlan, TrainingPlanItem
 from ..utils import validate_config_path
 
 
@@ -132,9 +132,9 @@ class VannaBase(ABC):
             doc_list=doc_list,
             **kwargs,
         )
-        self.log(title="SQL Prompt", message=prompt)
+        # self.log(title="SQL Prompt", message=prompt)
         llm_response = self.submit_prompt(prompt, **kwargs)
-        self.log(title="LLM Response", message=llm_response)
+        # self.log(title="LLM Response", message=llm_response)
 
         if 'intermediate_sql' in llm_response:
             if not allow_llm_to_see_data:
@@ -144,7 +144,7 @@ class VannaBase(ABC):
                 intermediate_sql = self.extract_sql(llm_response)
 
                 try:
-                    self.log(title="Running Intermediate SQL", message=intermediate_sql)
+                    # self.log(title="Running Intermediate SQL", message=intermediate_sql)
                     df = self.run_sql(intermediate_sql)
 
                     prompt = self.get_sql_prompt(
@@ -155,9 +155,9 @@ class VannaBase(ABC):
                         doc_list=doc_list+[f"The following is a pandas DataFrame with the results of the intermediate SQL query {intermediate_sql}: \n" + df.to_markdown()],
                         **kwargs,
                     )
-                    self.log(title="Final SQL Prompt", message=prompt)
+                    # self.log(title="Final SQL Prompt", message=prompt)
                     llm_response = self.submit_prompt(prompt, **kwargs)
-                    self.log(title="LLM Response", message=llm_response)
+                    # self.log(title="LLM Response", message=llm_response)
                 except Exception as e:
                     return f"Error running intermediate SQL: {e}"
 
@@ -1206,7 +1206,6 @@ class VannaBase(ABC):
                 database=dbname,
                 **kwargs
             )
-            print(conn)
         except Exception as e:
             raise ValidationError(e)
 
@@ -1884,17 +1883,15 @@ class VannaBase(ABC):
             raise ValidationError("Please also provide a SQL query")
 
         if documentation:
-            print("Adding documentation....")
             return self.add_documentation(documentation)
 
         if sql:
             if question is None:
                 question = self.generate_question(sql)
-                print("Question generated with sql:", question, "\nAdding SQL...")
+                # print("Question generated with sql:", question, "\nAdding SQL...")
             return self.add_question_sql(question=question, sql=sql)
 
         if ddl:
-            print("Adding ddl:", ddl)
             return self.add_ddl(ddl=ddl, engine=engine)
 
         if plan:

@@ -113,7 +113,7 @@ class AzureAISearch_VectorStore(VannaBase):
 
         index = SearchIndex(name=self.index_name, fields=fields, vector_search=vector_search)
         result = self.index_client.create_or_update_index(index)
-        print(f'{result.name} created')
+        # print(f'{result.name} created')
 
     def _get_indexes(self) -> list:
         return [index for index in self.index_client.list_index_names()]
