@@ -325,8 +325,8 @@ class VannaBase(ABC):
             return new_question
 
         prompt = [
-            self.system_message("Your goal is to combine a sequence of questions into a singular question if they are related. If the second question does not relate to the first question and is fully self-contained, return the second question. Return just the new combined question with no additional explanations. The question should theoretically be answerable with a single SQL statement."),
-            self.user_message("First question: " + last_question + "\nSecond question: " + new_question),
+            self.system_message("Your goal is to combine a sequence of sentences into a singular sentence if they are related. If the second sentence is a question, but the first sentence is an imperative and more relevant, return the first sentence. If the second sentence does not relate to the first sentence and is fully self-contained, return the second sentence. The combined sentence should be in interrogative form even if one of the two previous sentences is not. Ensure that the generated sentence is theoretically answerable with a single SQL statement."),
+            self.user_message("First one: " + last_question + "\nSecond one: " + new_question),
         ]
 
         return self.submit_prompt(prompt=prompt, **kwargs)

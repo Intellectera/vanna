@@ -1,5 +1,6 @@
 import os
 
+import requests
 from openai import OpenAI
 
 from ..base import VannaBase
@@ -8,6 +9,10 @@ from ..base import VannaBase
 class OpenAI_Chat(VannaBase):
     def __init__(self, client=None, config=None):
         VannaBase.__init__(self, config=config)
+
+        if not "x_customer" in config:
+            raise Exception("XCustomer is required in the config")
+        self.x_customer = config["x_customer"]
 
         # default parameters - can be overrided using config
         self.temperature = 0.7
@@ -50,6 +55,29 @@ class OpenAI_Chat(VannaBase):
     def assistant_message(self, message: str) -> any:
         return {"role": "assistant", "content": message}
 
+    def update_token_usage(self, token_usage: int) -> any:
+        url = self.x_customer.licenseUpdateUrl
+
+        # Replace with actual values
+        data = {
+            "usage": str(int(token_usage)),
+            "workspaceId": self.x_customer.workspaceId,
+            # type 1 = openai chat token
+            # type 2 = openai embedding token
+            "type": 1
+        }
+
+        headers = {
+            "Content-Type": "application/json",
+            "X-Customer": self.x_customer.json()
+        }
+
+        response = requests.post(url, json=data, headers=headers)
+
+        if not response.status_code == 200:
+            print("Error in updating usage:", response.status_code, response.text)
+            raise Exception(f"Error in updating usage: {response.status_code} {response.text}")
+
     def submit_prompt(self, prompt, **kwargs) -> str:
         if prompt is None:
             raise Exception("Prompt is None")
@@ -62,6 +90,8 @@ class OpenAI_Chat(VannaBase):
         num_tokens = 0
         for message in prompt:
             num_tokens += len(message["content"]) / 4
+
+        self.update_token_usage(num_tokens)
 
         if kwargs.get("model", None) is not None:
             model = kwargs.get("model", None)
